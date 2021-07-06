@@ -203,104 +203,15 @@ prepare() {
             msg2 "Applying patch ${i} from ${d}" && patch -Np1 < $patch_file
     done
   done
-  sed -i "/HAVE_DEBUG_KMEMLEAK/d" arch/x86/Kconfig
-  sed -i "/ARCH_HAS_KCOV/d" arch/x86/Kconfig
-  sed -i "/ARCH_HAS_DEBUG_WX/d" arch/x86/Kconfig
-  sed -i "/ARCH_HAS_DEBUG_VIRTUAL/d" arch/x86/Kconfig
-  sed -i "/ARCH_HAS_DEBUG_VM_PGTABLE/d" arch/x86/Kconfig
-  sed -i "/ARCH_SUPPORTS_DEBUG_PAGEALLOC/d" arch/x86/Kconfig
-  sed -i "/SYSCTL_EXCEPTION_TRACE/d" arch/x86/Kconfig
-  sed -i "/TASKS_TRACE_RCU/d" init/Kconfig
-  sed -i "s/if EXPERT/if !EXPERT/g" arch/x86/Kconfig.debug
-  sed -i "s/default !EXPERT/default EXPERT/g" lib/Kconfig.debug
-  sed -i "s/if EXPERT/if !EXPERT/g" drivers/infiniband/ulp/ipoib/Kconfig
-  sed -i "s/if EXPERT/if !EXPERT/g" drivers/infiniband/hw/mthca/Kconfig
-  sed -i "s/def_bool BT_CMTP/def_bool n/g;s/&&/||/g" drivers/isdn/capi/Kconfig
-  sed -i "s/=y/=m/g" net/ipv4/Kconfig
-  # scripts/config --enable CONFIG_LD_DEAD_CODE_DATA_ELIMINATION
-  # scripts/config --enable CONFIG_INLINE_OPTIMIZATION
-  scripts/config --enable CONFIG_INIT_STACK_ALL_ZERO
-  scripts/config --disable CONFIG_DEBUG_KERNEL
-  scripts/config --disable CONFIG_DEBUG_MISC
-  scripts/config --disable CONFIG_DEBUG_WX
-  scripts/config --disable CONFIG_SCHED_DEBUG
-  scripts/config --disable CONFIG_KALLSYMS_ALL
-  scripts/config --disable CONFIG_PM_DEBUG
-  scripts/config --disable CONFIG_PM_ADVANCED_DEBUG
-  scripts/config --disable CONFIG_PM_SLEEP_DEBUG
-  scripts/config --disable CONFIG_ACPI_DEBUG
-  scripts/config --disable CONFIG_SCSI_DEBUG
-  scripts/config --disable CONFIG_SCSI_LOGGING
-  scripts/config --disable CONFIG_HAVE_DEBUG_KMEMLEAK
-  scripts/config --disable CONFIG_HYPERVISOR_GUEST
-  scripts/config --disable CONFIG_IOSF_MBI_DEBUG
-  scripts/config --disable CONFIG_ACPI_DEBUGGER
-  scripts/config --disable CONFIG_ACPI_DEBUGGER_USER
-  scripts/config --disable ARCH_HAS_DEBUG_WX
-  scripts/config --disable CONFIG_MLX4_DEBUG
-  scripts/config --disable CONFIG_NFS_DEBUG
-  scripts/config --disable LOCK_DEBUGGING_SUPPORT
-  scripts/config --disable CONFIG_SUNRPC_DEBUG
-  scripts/config --disable CONFIG_PUNIT_ATOM_DEBUG
-  scripts/config --disable CONFIG_ACPI_EC_DEBUGFS
-  scripts/config --disable CONFIG_RTW88_DEBUG
-  scripts/config --disable CONFIG_RTW88_DEBUGFS
-  scripts/config --disable CONFIG_WILCO_EC_DEBUGFS
-  scripts/config --disable CONFIG_WIL6210_DEBUGFS
-  scripts/config --disable CONFIG_SMS_SIANO_DEBUGFS
-  scripts/config --disable CONFIG_MAC80211_DEBUGFS
-  scripts/config --disable CONFIG_ATH10K_DEBUGFS
-  scripts/config --disable CONFIG_ATH9K_DEBUGFS
-  scripts/config --disable CONFIG_ATH9K_HTC_DEBUGFS
-  scripts/config --disable CONFIG_BT_DEBUGFS
-  scripts/config --disable CONFIG_CFG80211_DEBUGFS
-  scripts/config --disable CONFIG_CROS_EC_DEBUGFS
-  scripts/config --disable CONFIG_IEEE802154_AT86RF230_DEBUGFS
-  scripts/config --disable CONFIG_IEEE802154_CA8210_DEBUGFS
-  scripts/config --disable CONFIG_IWLEGACY_DEBUGFS
-  scripts/config --disable CONFIG_IWLWIFI_DEBUGFS
-  scripts/config --disable CONFIG_L2TP_DEBUGFS
-  scripts/config --disable CONFIG_BLK_DEBUG_FS
-  scripts/config --disable CONFIG_THINKPAD_ACPI_DEBUGFACILITIES
-  scripts/config --disable CONFIG_DEBUG_MEMORY_INIT
-  scripts/config --disable CONFIG_CIFS_DEBUG
-  scripts/config --disable CONFIG_DYNAMIC_DEBUG
-  scripts/config --disable CONFIG_DYNAMIC_DEBUG_CORE
-  scripts/config --disable CONFIG_X86_DEBUGCTLMSR
-  scripts/config --disable CONFIG_INFINIBAND_IPOIB_DEBUG
-  scripts/config --disable CONFIG_INFINIBAND_MTHCA_DEBUG
-  scripts/config --disable PAGE_POISONING
-  scripts/config --disable CONFIG_SYSTEM_DATA_VERIFICATION
-  scripts/config --disable CONFIG_MODULE_SIG
-  scripts/config --disable CONFIG_MODULE_SIG_ALL
-  scripts/config --disable CONFIG_TASKS_TRACE_RCU
-  scripts/config --disable CONFIG_SCSI_IPR_TRACE
-  scripts/config --disable CONFIG_BRCM_TRACING
-  scripts/config --disable CONFIG_TRACE_ROUTER
-  scripts/config --disable CONFIG_TRACE_SINK
-  scripts/config --disable CONFIG_NETFILTER_XT_TARGET_TRACE
-  scripts/config --disable CONFIG_CAPI_TRACE
-  scripts/config --disable CONFIG_HAVE_STACK_VALIDATION
-  scripts/config --disable CONFIG_SCSI_ESAS2R
-  scripts/config --disable CONFIG_DEFAULT_FQ_PIE
-  scripts/config --enable CONFIG_DEFAULT_FQ_CODEL
-  scripts/config --disable CONFIG_TCP_CONG_BBR2
-  scripts/config --disable CONFIG_DEFAULT_BBR2
-  scripts/config --disable CONFIG_DEFAULT_CUBIC
-  scripts/config --enable CONFIG_DEFAULT_BBR
-  scripts/config --enable CONFIG_HIGH_RES_TIMERS
 
-  msg2 "Getting hamadmarri's auto config"
-  wget -q "https://github.com/hamadmarri/cacule-cpu-scheduler/raw/master/scripts/apply_suggested_configs.sh"
-  msg2 "Applying auto config"
-  chmod +x apply_suggested_configs.sh
-  ./apply_suggested_configs.sh
 #   msg2 "Getting hamadmarri's cacule sched"
 #   wget -q "https://raw.githubusercontent.com/hamadmarri/cacule-cpu-scheduler/master/patches/CacULE/v${_major}/cacule-${_major}.patch"
 #   msg2 "Applying cacule patch"
 #   patch -Np1 < cacule-${_major}.patch
 #   scripts/config --disable CONFIG_CACULE_SCHED
   # scripts/config --enable CACULE_RDB
+
+  scripts/config --disable CONFIG_DEBUG_INFO_BTF
 
   scripts/config --enable CONFIG_LTO
   scripts/config --enable LTO_GCC
